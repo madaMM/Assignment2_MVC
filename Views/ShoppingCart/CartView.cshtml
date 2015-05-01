@@ -1,0 +1,56 @@
+﻿@model MvcAppShop.Models.Product
+
+@{
+    ViewBag.Title = "CartView";
+    decimal totalSum = 0;
+}
+   
+
+@using MvcAppShop.Models
+@using MvcAppShop.Controllers
+
+
+
+<h2>ShoppingCart</h2>
+<br></br>
+
+<style>
+    table, th, td {
+        border: 5px solid blue;
+    }
+</style>
+
+<table>
+
+    @Html.ActionLink("Go to the list of products", "Index", "Home")
+    <br> </br>
+
+    <tr>
+        <th>Id Product</th>
+        <th>Name of Product</th>
+        <th>Price of Product</th>
+        <th>Quantity of Product</th>
+        <th>Remove Product from Cart</th>
+        
+
+    </tr>
+    
+    
+
+    @foreach (var it in (List<Cart>)Session["shoppingCart"])
+    {
+        totalSum  +=  it.getProd().Price * it.getQty();
+        <tr>
+            <td>@it.getProd().ID</td>
+            <td>@it.getProd().Name</td>
+            <td>@it.getProd().Price</td>
+            <td>@it.getQty()</td>
+            <td>@Html.ActionLink("Remove From Cart", "Remove", "ShoppingCart", new { id = it.getProd().ID }, null)</td>
+        </tr>
+    }
+
+    <h><b>Total cost of your products is : @totalSum</b></h>
+
+   
+
+</table>
